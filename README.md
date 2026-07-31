@@ -28,6 +28,9 @@ Create a `.env` file in the root directory.
 | `JWT_SECRET` | Secret key for JWT signing | `super_secret_consultation_key_123` |
 | `PORT` | Server port | `3000` |
 
+### Github Repo:
+Link: https://github.com/Coderofcoders70/Doctor-Patient-Consultation
+
 ### Running Locally
 
 ```bash
