@@ -78,11 +78,13 @@ Status: PENDING | ACTIVE | COMPLETED
 
 ```
 
-Note: A Postman collection is included in the root directory for instant testing. All protected routes require the header: Authorization: Bearer <token>.
+Note: A Postman collection is included in the root directory for instant testing.
+All protected routes require the header: Authorization: Bearer <token>.
 
 Authentication
 POST /auth/register
-Registers a new user (Patient or Doctor). Uses a database transaction to ensure Doctor profiles are created safely.
+Registers a new user (Patient or Doctor).
+Uses a database transaction to ensure Doctor profiles are created safely.
 Request Body:
 JSON{
   "name": "Dr. Sarah Smith",
@@ -128,7 +130,7 @@ POST /consultations
 Initiates a new consultation. Access: PATIENT only.
 
 GET /consultations?page=1&limit=5
-Retrieves a paginated list of consultations for the authenticated user (Patients see their history; Doctors see their assigned patients). Includes pagination metadata.
+Retrieves a paginated list of consultations for the authenticated user. Includes pagination metadata.
 Response (200):
 JSON{
   "data": [
@@ -151,11 +153,13 @@ JSON{
 }
 
 PATCH /consultations/:id/status
-Updates the state of a consultation. Access: Assigned DOCTOR only. Valid transitions block changes if already COMPLETED.
+Updates the state of a consultation. Access: Assigned DOCTOR only.
+Valid transitions block changes if already COMPLETED.
 
 Chat (Messages)
 POST /consultations/:id/messages
-Sends a message to an active consultation. Access: Assigned Patient or Doctor. Blocked if consultation is COMPLETED.
+Sends a message to an active consultation.
+Access: Assigned Patient or Doctor. Blocked if consultation is COMPLETED.
 
 GET /consultations/:id/messages
 Retrieves chronological message history for a consultation.
