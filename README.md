@@ -68,7 +68,9 @@ Consultation: Links patientId (User) and doctorId (User).
 
 Message: Belongs to a specific Consultation and references a senderId (User).
 
-EnumsRole: PATIENT | DOCTORStatus: PENDING | ACTIVE | COMPLETED
+EnumsRole: PATIENT | DOCTOR
+
+Status: PENDING | ACTIVE | COMPLETED
 
 ```
 
