@@ -38,11 +38,21 @@ const getConsultations = async (req, res) => {
     try {
         const { userId, role } = req.user;
 
+        // Adding pagination logic 
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+        const skip = (page - 1) * limit;
+
         // It returns consultations based on who is asking
         const whereClause = role === 'PATIENT' ? { patientId: userId } : { doctorId: userId };
 
+        // Fetch the total count for frontend pagination math
+        const totalConsultations = await prisma.consultation.count({ where: whereClause });
+
         const consultations = await prisma.consultation.findMany({
             where: whereClause,
+            skip: skip,
+            take: limit,
             include: {
                 patient: {
                     select: { id: true, name: true, email: true }
@@ -64,7 +74,16 @@ const getConsultations = async (req, res) => {
             orderBy: { createdAt: 'desc' }
         });
 
-        res.status(200).json(consultations);
+        res.status(200).json({
+            data: consultations,
+            meta: {
+                total: totalConsultations,
+                page: page,
+                limit: limit,
+                totalPages: Math.ceil(totalConsultations / limit)
+            }
+        });
+        
     } catch (error) {
         console.error('Get Consultations Error:', error);
         res.status(500).json({ error: 'Internal server error' });
@@ -86,7 +105,7 @@ const getConsultationById = async (req, res) => {
                     select: {
                         id: true,
                         specialization: true,
-                        user: { 
+                        user: {
                             select: { name: true }
                         }
                     }
