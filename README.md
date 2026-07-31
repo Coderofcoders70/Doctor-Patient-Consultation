@@ -78,7 +78,7 @@ Status: PENDING | ACTIVE | COMPLETED
 
 ```
 
-Note: A Postman collection (Doctor-Patient-API.postman_collection.json) is included in the root directory for instant testing. All protected routes require the header: Authorization: Bearer <token>.
+Note: A Postman collection is included in the root directory for instant testing. All protected routes require the header: Authorization: Bearer <token>.
 
 Authentication
 POST /auth/register
