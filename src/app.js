@@ -9,13 +9,15 @@ app.use(express.json());
 // API Routes
 const authRoutes = require('./routes/authRoutes');
 const doctorRoutes = require('./routes/doctorRoutes');
+const consultationRoutes = require('./routes/consultationRoutes');
+
 app.use('/auth', authRoutes);
 app.use('/doctors', doctorRoutes);
+app.use('/consultations', consultationRoutes);
 
 // Check the health of route
 app.get('/health', async (req, res) => {
   try {
-    // to fetch a single record for now to confirm database access
     await prisma.user.findFirst();
     res.status(200).json({ 
       status: 'success', 
