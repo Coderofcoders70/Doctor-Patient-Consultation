@@ -2,6 +2,11 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const prisma = require('../config/db');
 
+// to test the invalid email format
+const isValidEmail = (email) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+};
+
 const register = async (req, res) => {
     try {
         const { name, email, password, role, specialization, experience } = req.body;
@@ -9,6 +14,11 @@ const register = async (req, res) => {
         // basic validation 
         if (!name || !email || !password) {
             return res.status(400).json({ error: 'Name, email, and password are required' });
+        }
+
+        // check email format
+        if (!isValidEmail(email)) {
+            return res.status(400).json({ error: 'Invalid email format' });
         }
 
         // Check for duplicate email
@@ -70,6 +80,10 @@ const login = async (req, res) => {
 
         if (!email || !password) {
             return res.status(400).json({ error: 'Email and password are required' });
+        }
+
+        if (!isValidEmail(email)) {
+            return res.status(400).json({ error: 'Invalid email format' });
         }
 
         // Check if the user exists
