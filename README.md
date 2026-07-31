@@ -189,5 +189,3 @@ src/
 │   ├── chatRoutes.js
 │   ├── consultationRoutes.js
 │   └── doctorRoutes.js
-└── utils/
-    └── validators.js       # Reusable validation logic (Email Regex)
