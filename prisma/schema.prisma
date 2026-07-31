@@ -1,0 +1,67 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  PATIENT
+  DOCTOR
+}
+
+enum Status {
+  PENDING
+  ACTIVE
+  COMPLETED
+}
+
+model User {
+  id                   Int            @id @default(autoincrement())
+  name                 String
+  email                String         @unique
+  password             String
+  role                 Role           @default(PATIENT)
+  
+  doctorProfile        Doctor?        // Optional: Only if role is DOCTOR
+  patientConsultations Consultation[] @relation("PatientConsultations")
+  messagesSent         Message[]
+}
+
+model Doctor {
+  id             Int            @id @default(autoincrement())
+  userId         Int            @unique
+  user           User           @relation(fields: [userId], references: [id])
+  specialization String
+  experience     Int
+  consultations  Consultation[] @relation("DoctorConsultations")
+}
+
+model Consultation {
+  id          Int       @id @default(autoincrement())
+  patientId   Int
+  doctorId    Int
+  status      Status    @default(PENDING)
+  createdAt   DateTime  @default(now())
+  
+  patient     User      @relation("PatientConsultations", fields: [patientId], references: [id])
+  doctor      Doctor    @relation("DoctorConsultations", fields: [doctorId], references: [id])
+  messages    Message[]
+}
+
+model Message {
+  id             Int          @id @default(autoincrement())
+  consultationId Int
+  senderId       Int
+  message        String
+  timestamp      DateTime     @default(now())
+  
+  consultation   Consultation @relation(fields: [consultationId], references: [id])
+  sender         User         @relation(fields: [senderId], references: [id])
+}
