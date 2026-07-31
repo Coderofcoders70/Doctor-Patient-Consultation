@@ -10,10 +10,14 @@ app.use(express.json());
 const authRoutes = require('./routes/authRoutes');
 const doctorRoutes = require('./routes/doctorRoutes');
 const consultationRoutes = require('./routes/consultationRoutes');
+const chatRoutes = require('./routes/chatRoutes');
 
 app.use('/auth', authRoutes);
 app.use('/doctors', doctorRoutes);
+
+// mounting both to the consultations path
 app.use('/consultations', consultationRoutes);
+app.use('/consultations', chatRoutes);
 
 // Check the health of route
 app.get('/health', async (req, res) => {
