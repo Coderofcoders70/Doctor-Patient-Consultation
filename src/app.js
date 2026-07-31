@@ -8,7 +8,9 @@ app.use(express.json());
 
 // API Routes
 const authRoutes = require('./routes/authRoutes');
+const doctorRoutes = require('./routes/doctorRoutes');
 app.use('/auth', authRoutes);
+app.use('/doctors', doctorRoutes);
 
 // Check the health of route
 app.get('/health', async (req, res) => {
